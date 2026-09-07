@@ -81,3 +81,8 @@ resilience4j:
         failureRateThreshold: 50
         automaticTransitionFromOpenToHalfOpenEnabled: true
         slidingWindowType: count_based
+  retry:
+    instances:
+      retryProductService:
+        maxAttempts: 5
+        waitDuration: 500ms
