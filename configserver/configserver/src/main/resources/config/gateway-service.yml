@@ -1,29 +1,35 @@
-#spring:
-#  cloud:
-#    gateway:
-#      routes:
-#        - id: product-service
-#          uri: lb://PRODUCT-SERVICE
-#          predicates:
-#            - Path=/api/products/**
-#        - id: order-service
-#          uri: lb://ORDER-SERVICE
-#          predicates:
-#            - Path=/api/cart/**, /api/orders/**
-#        - id: user-service
-#          uri: lb://USER-SERVICE
-#          predicates:
-#            - Path=/api/users/**
-#        - id: eureka-server
-#          uri: http://localhost:8761
-#          predicates:
-#            - Path=/eureka/main
-#          filters:
-#            - SetPath=/
-#        - id: eureka-server-static
-#          uri: http://localhost:8761
-#          predicates:
-#            - Path=/eureka/**
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: product-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/products/**
+          filters:
+            - "RewritePath=/products(?<segment>/?.*), /api/products${segment}"
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/cart/**, /orders/**
+          filters:
+            - "RewritePath=/(?<segment>.*), /api/${segment}"
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/users/**
+          filters:
+            - "RewritePath=/users(?<segment>/?.*), /api/users${segment}"
+        - id: eureka-server
+          uri: http://localhost:8761
+          predicates:
+            - Path=/eureka/main
+          filters:
+            - SetPath=/
+        - id: eureka-server-static
+          uri: http://localhost:8761
+          predicates:
+            - Path=/eureka/**
 
 server:
   port: 8080
