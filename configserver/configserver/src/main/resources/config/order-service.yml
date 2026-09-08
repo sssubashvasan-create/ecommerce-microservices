@@ -86,3 +86,9 @@ resilience4j:
       retryProductService:
         maxAttempts: 5
         waitDuration: 500ms
+  ratelimiter:
+    instances:
+      orderRateLimiter:
+        timeout-duration: 0
+        limit-refresh-period: 4s
+        limit-for-period: 2
